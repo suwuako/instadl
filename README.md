@@ -37,3 +37,8 @@ GNU GPL 3.0
 ## Contributors
 
 just me
+
+
+if ur all the way down here can u like add me on discord and say i did a good job because im suffering rn thanks
+
+hmu suwa#2340
