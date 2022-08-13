@@ -1,8 +1,11 @@
 import sys
+import time
 import pathlib
 import requests
 import shutil
 import random
+import asyncio
+import json
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -39,6 +42,7 @@ def find_os():
 
     return driver
 
+
 def find_aagt(driver):
     """
     _aatg is the tag that is used to point to the link that holds the image on instagram's saved posts
@@ -49,6 +53,7 @@ def find_aagt(driver):
     aagt_items = driver.find_elements(By.CLASS_NAME, "_aagt")
 
     return aagt_items
+
 
 def get_links(aagt_items):
     """
@@ -63,27 +68,39 @@ def get_links(aagt_items):
 
     return image_links
 
-def download_links(driver, image_links):
+
+async def download_links(image_links):
     """
     :param driver: selenium driver
     :param prefs:  firefox preferences
     :param image_links: list of image links
     :return:
     """
+    print(f"started main at {time.strftime('%X')}")
+    print(f"DOWNLOADING [{len(image_links)}] IMAGES")
 
+    # So idk why it decides to kill itself, my best asusmption is that its because i pass args into dl().
+    # Can someone smarter than me fix & pull request ty <3
+    try:
+        await asyncio.gather(
+            *(asyncio.to_thread(dl(i, image_links)) for i in image_links)
+        )
+    except:
+        print(f"finished main at {time.strftime('%X')}")
+
+def dl(link, image_links):
     OUTPUT_PATH = "output/"
     file_extension = "png"
     count = 1
+    res = requests.get(link, stream=True)
+    download_path = f"{OUTPUT_PATH}{random.randint(10000000, 99999999)}.{file_extension}"
 
-    for i in image_links:
-        print(f"[{count}] downloading picture... ({i})")
-        res = requests.get(i, stream=True)
-        if res.status_code == 200:
+    if res.status_code == 200:
+        print(f"[{image_links.index(link)}+1]downloading image...")
+        with open(download_path, 'wb') as f:
+            shutil.copyfileobj(res.raw, f)
 
-            with open(f"{OUTPUT_PATH}{random.randint(10000000,99999999)}.{file_extension}", 'wb') as f:
-                shutil.copyfileobj(res.raw, f)
-
-        else:
-            print("File could not be downloaded")
+    else:
+        print("File could not be downloaded")
 
         count += 1
