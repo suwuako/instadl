@@ -1,43 +1,29 @@
-import pathlib
-import sys
+import time
+import requests
+import shutil
 
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
+import src.lib as lib
+import src.tui as tui
 
-# Scrapping old code from old projects i have no idea what these values are
-windows = ["win32"]
-linux = ["linux", "linux2"]
-platform = sys.platform
+class maindl():
+    def __init__(self):
+        pass
 
-path = pathlib.Path().absolute()
+    def run(self):
+        driver = lib.find_os()
+        link = "https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-15/298413458_1450823602056729_2300657221757228720_n.jpg?stp=dst-jpg_e15_fr_p1080x1080&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=K5qthe_V19sAX9NDD4K&tn=JK28nsAeOT9zjV2_&edm=ACOOH6wBAAAA&ccb=7-5&ig_cache_key=MjkwMjE0OTUxNzIyOTE4MzAzNQ%3D%3D.2-ccb7-5&oh=00_AT-wWVqgp1hAZnk0OJzx7b1UQERGmSeulcR2oPfDL4kqxw&oe=62FF7B63&_nc_sid=ec1c8f"
 
-if platform in windows:
-    driver = fr"{path}\ext\geckodriver.exe"
-elif platform in linux:
-    driver = fr"{path}.external.geckodriver"
-else:
-    driver = fr"{path}.external.geckodriver"
+        driver.get(link)
+        # tui.prompt_login()
+        # aagt_items = lib.find_aagt(driver)
+        # image_links = lib.get_links(aagt_items)
+        # lib.download_links(driver, image_links)
 
-driver = webdriver.Firefox(service=Service(driver))
-driver.get("https://www.instagram.com")
+        res = requests.get(link, stream = True)
+        with open("test", 'wb') as f:
+            shutil.copyfileobj(res.raw, f)
 
-print("login or something")
-input("after logging in press enter to continue")
+if __name__ == '__main__':
+    maindl = maindl()
+    maindl.run()
 
-# Not sure if these values chnage also this is really bad i literally hardcoded in a path bruh fix this when possible
-username_xpath = "/html/body/div[1]/div/div[1]/div/div[1]/div/div/div/div[1]/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a"
-username_class = "oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl _aak1 _a6hd"
-
-
-print("attempting to find username with xpath")
-username = driver.find_element(By.XPATH, username_xpath)
-print("success")
-
-print(username)
-
-# Navigate to saved url
-driver.get(f"https://www.instagram.com/{username}/saved")
-
-driver.close()

@@ -9,13 +9,14 @@ class maindl():
 
     def run(self):
         driver = lib.find_os()
-        driver.get("https://www.instagram.com/")
+
+        driver.get("https://instagram.com")
         tui.prompt_login()
         aagt_items = lib.find_aagt(driver)
-        lib.get_links(driver, aagt_items)
+        image_links = lib.get_links(aagt_items)
+        lib.download_links(driver, image_links)
 
 
 if __name__ == '__main__':
     maindl = maindl()
     maindl.run()
-
