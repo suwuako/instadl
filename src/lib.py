@@ -5,10 +5,12 @@ import requests
 import shutil
 import random
 import asyncio
+import keyboard
 import json
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox import options
 
@@ -55,18 +57,33 @@ def find_aagt(driver):
     return aagt_items
 
 
-def get_links(aagt_items):
+def get_link(aagt):
     """
-    :param aagt_items: list of all selenium webelements w/ class _aagt
+    :param aagt: webdriver aagt element
     :return image_links: list of image links
     """
 
-    image_links = list()
+    return aagt.get_attribute("src")
 
-    for i in aagt_items:
-        image_links.append(i.get_attribute("src"))
+def cache_links(driver):
+    saved_aagt = []
+    saved_links = []
+    count = 1
+    while True:
+        print("searching...")
+        aagt = find_aagt(driver)
 
-    return image_links
+        for i in aagt:
+            if i not in saved_aagt:
+                print(f"[{count}] getting link...")
+                saved_aagt.append(i)
+                saved_links.append(get_link(i))
+                count += 1
+
+        print(f"loaded {len(saved_aagt)} items and loaded {len(saved_links)} links... ")
+
+        if keyboard.read_key() == "p":
+            return saved_links
 
 
 async def download_links(image_links):
@@ -96,7 +113,7 @@ def dl(link, image_links):
     download_path = f"{OUTPUT_PATH}{random.randint(10000000, 99999999)}.{file_extension}"
 
     if res.status_code == 200:
-        print(f"[{image_links.index(link)}+1]downloading image...")
+        print(f"[{image_links.index(link)+1}]downloading image...")
         with open(download_path, 'wb') as f:
             shutil.copyfileobj(res.raw, f)
 

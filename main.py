@@ -10,12 +10,13 @@ class maindl():
 
     async def run(self):
         driver = lib.find_os()
-
         driver.get("https://instagram.com")
+
         tui.prompt_login()
-        aagt_items = lib.find_aagt(driver)
-        image_links = lib.get_links(aagt_items)
-        await lib.download_links(image_links)
+        tui.prompt_scroll()
+        aagt_items = lib.cache_links(driver)
+
+        await lib.download_links(aagt_items)
 
 
 if __name__ == '__main__':
