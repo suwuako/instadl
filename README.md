@@ -36,11 +36,27 @@ this is me
 7. REALIZE I CODED THIS IN LIKE 6 HOURS AND IM WRITING INSTRUCTIONS FOR THIS AT 4AM AND LIKE THANK ME OR SOMETHING HONESTLY IM GOING MENTAL
 
 
+## Support me please
+
+ayo so heres the thing right im kinda too lazy to make a paypal or cashapp or whatever so can someone buy me a game on steam (preferrably guilty gear strive thanks <3)
+
+https://steamcommunity.com/id/swagsuwa/
+
+
 ## TODOS
 - update todo in readme
 
 ## Demos
-none rn
+
+<a href="https://www.youtube.com/watch?v=SUbdZLqv-jM">Bulk downloading from instagram<a>
+
+<a href="https://www.youtube.com/watch?v=BNZ3bMfzW1k">Asynchronous file downloading from saved list<a>
+
+
+## Contributing
+
+honestly idk if ppl will even notice this project so yk maybe ill add stuff for contributing if it picks up traction
+
 
 ## License
 GNU GPL 3.0
