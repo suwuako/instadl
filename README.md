@@ -16,7 +16,7 @@ this is me
   - requests
   - shutil
   - asyncio
-  - keybaord
+  - keyboard
   - json
   
 ## HOW TO GET IT WORKING
