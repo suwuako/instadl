@@ -52,7 +52,9 @@ def find_aagt(driver):
     :param driver: selenium driver
     :return aagt_items: list of selenium webelements
     """
+    keyboard.press_and_release("F12")
     aagt_items = driver.find_elements(By.CLASS_NAME, "_aagt")
+    keyboard.press_and_release("F12")
 
     return aagt_items
 
@@ -65,13 +67,36 @@ def get_link(aagt):
 
     return aagt.get_attribute("src")
 
-def cache_links(driver):
+
+def scroll_and_f12(driver):
+    SCROLL_PAUSE_TIME = 0.5
+
+    keyboard.press_and_release("F12")
+    time.sleep(SCROLL_PAUSE_TIME)
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    return
+
+def cache_links(driver, load_seconds):
+    """
+    :param driver:
+    :return:
+    """
+
     saved_aagt = []
     saved_links = []
+
     count = 1
+
     while True:
         print("searching...")
+
+        height = driver.execute_script("return document.body.scrollHeight")
+
+        keyboard.press_and_release("F12")
         aagt = find_aagt(driver)
+
+        print("_aagt classes found!")
 
         for i in aagt:
             if i not in saved_aagt:
@@ -82,7 +107,15 @@ def cache_links(driver):
 
         print(f"loaded {len(saved_aagt)} items and loaded {len(saved_links)} links... ")
 
-        if keyboard.read_key() == "p":
+        scroll_and_f12(driver)
+        time.sleep(load_seconds)
+
+        current_height = driver.execute_script("return document.body.scrollHeight")
+
+        print(f"current page height: {height}")
+        print(f"load page height: {current_height}")
+
+        if height == current_height:
             return saved_links
 
 
@@ -108,16 +141,16 @@ async def download_links(image_links):
 def dl(link, image_links):
     OUTPUT_PATH = "output/"
     file_extension = "png"
-    count = 1
+
     res = requests.get(link, stream=True)
     download_path = f"{OUTPUT_PATH}{random.randint(10000000, 99999999)}.{file_extension}"
 
     if res.status_code == 200:
-        print(f"[{image_links.index(link)+1}]downloading image...")
+        print(f"[{image_links.index(link)+1}] Downloading image...")
         with open(download_path, 'wb') as f:
             shutil.copyfileobj(res.raw, f)
 
+        print(f"[{image_links.index(link)+1}] Download Complete.")
+
     else:
         print("File could not be downloaded")
-
-        count += 1

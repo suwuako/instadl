@@ -13,8 +13,8 @@ class maindl():
         driver.get("https://instagram.com")
 
         tui.prompt_login()
-        tui.prompt_scroll()
-        aagt_items = lib.cache_links(driver)
+        sec = tui.prompt_scroll()
+        aagt_items = lib.cache_links(driver, sec)
 
         await lib.download_links(aagt_items)
 
