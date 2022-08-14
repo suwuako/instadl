@@ -1,5 +1,5 @@
 # instadl
-downloads your saved pictures from instagram 
+downloads your saved pictures from instagram asynchronously (swagly)
 
 After coding this, I have learnt that instagram (facebook) (mark zuckerburg) will do everything to make your life hell
 
