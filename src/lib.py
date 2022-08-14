@@ -6,6 +6,7 @@ import shutil
 import random
 import asyncio
 import keyboard
+import datetime
 import json
 
 from selenium import webdriver
@@ -119,25 +120,6 @@ def cache_links(driver, load_seconds):
             return saved_links
 
 
-async def download_links(image_links):
-    """
-    :param driver: selenium driver
-    :param prefs:  firefox preferences
-    :param image_links: list of image links
-    :return:
-    """
-    print(f"started main at {time.strftime('%X')}")
-    print(f"DOWNLOADING [{len(image_links)}] IMAGES")
-
-    # So idk why it decides to kill itself, my best asusmption is that its because i pass args into dl().
-    # Can someone smarter than me fix & pull request ty <3
-    try:
-        await asyncio.gather(
-            *(asyncio.to_thread(dl(i, image_links)) for i in image_links)
-        )
-    except:
-        print(f"finished main at {time.strftime('%X')}")
-
 def dl(link, image_links):
     OUTPUT_PATH = "output/"
     file_extension = "png"
@@ -146,11 +128,29 @@ def dl(link, image_links):
     download_path = f"{OUTPUT_PATH}{random.randint(10000000, 99999999)}.{file_extension}"
 
     if res.status_code == 200:
-        print(f"[{image_links.index(link)+1}] Downloading image...")
+        print(f"[PROCESS {image_links.index(link)+1}] Downloading image...")
         with open(download_path, 'wb') as f:
             shutil.copyfileobj(res.raw, f)
 
-        print(f"[{image_links.index(link)+1}] Download Complete.")
-
     else:
         print("File could not be downloaded")
+
+
+async def bundle_downloads(links):
+
+    await asyncio.gather(
+        *(asyncio.to_thread(dl, links[num], links) for num in range(len(links)))
+    )
+
+def save_links(link_list):
+    """
+    :param link_list:
+    :return:
+    """
+
+    current_date_and_time = str(datetime.datetime.now()).replace(":", ".")
+
+    with open(f"saved-lists/{current_date_and_time}.json", 'w') as f:
+        json.dump(link_list, f, ensure_ascii=False, indent=4)
+
+    print("debug list saved!")

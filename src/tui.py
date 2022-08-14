@@ -32,3 +32,8 @@ def prompt_scroll():
 
     print("starting loader...")
     return out
+
+def prompt_options():
+    print("Do you want to download from a previously saved json file in 'saved-lists/something.json' or pull from your"
+          "instagram feed?")
+    return input("(D for download from file, P for pull from instagram)").upper()
