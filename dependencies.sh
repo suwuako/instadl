@@ -1,3 +1,4 @@
+#!/bin/bash
 pip install sys
 pip install pathlib
 pip install requests
