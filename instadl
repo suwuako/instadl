@@ -26,22 +26,22 @@ class maindl():
             await lib.bundle_downloads(aagt_items)
 
         elif options == "download":
-            print("type in the EXACT filename including spaces, fullstops and the .json at the end: \n"
-                  "For example, if your file was in the directory /saved-lists/2022-08-14 13.21.30.092375.json, \n"
-                  "you would type '2022-08-14 13.21.30.092375.json'")
-            filename = input()
+            filename = self.arguments[2]
             path = f"saved-lists/{filename}"
 
-            f = open(path)
-            links = json.load(f)
-            await lib.bundle_downloads(links)
+            try:
+                f = open(path)
+                links = json.load(f)
+                await lib.bundle_downloads(links)
+            except:
+                print("type in the EXACT filename including spaces, fullstops and the .json at the end: \n"
+                      "For example, if your file was in the directory /saved-lists/2022-08-14 13.21.30.092375.json, \n"
+                      "you would type '2022-08-14 13.21.30.092375.json'")
 
         elif options == "help":
             print("""Instadl Help Menu:
             instadl pull                    - pulls images from instagram, saves links in saved-lists and downloads to output
-            instadl download LISTNAME       - downloads images from a saved list
-            instadl update LISTNAME         - updates a list link and downloads diffs
-            instadl merge LISTNAME LISTNAME - merges links from two lists""")
+            instadl download LISTNAME       - downloads images from a saved list""")
 
         else:
             print("Invalid input - try running 'python instadl help' instead")
