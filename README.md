@@ -1,3 +1,5 @@
+# NOTE: THIS DOESN"T WORK ANYMORE FACEBOOK CHANGED THEIR CODE AND IM TOO LAZY TO FIX IT RN
+
 # instadl
 downloads your saved pictures from instagram asynchronously (swagly)
 
