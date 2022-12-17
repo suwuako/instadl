@@ -1,5 +1,7 @@
 # NOTE: THIS DOESN"T WORK ANYMORE FACEBOOK CHANGED THEIR CODE AND IM TOO LAZY TO FIX IT RN
 
+if someone wants to fix it feel free to pull request, the new tag is _ab1c i think
+
 # instadl
 downloads your saved pictures from instagram asynchronously (swagly)
 
