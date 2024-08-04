@@ -33,15 +33,6 @@ this is me
 
 6. CHECK instadl/output FOR FILES
 
-7. REALIZE I CODED THIS IN LIKE 6 HOURS AND IM WRITING INSTRUCTIONS FOR THIS AT 4AM AND LIKE THANK ME OR SOMETHING HONESTLY IM GOING MENTAL
-
-
-## Support me please
-
-ayo so heres the thing right im kinda too lazy to make a paypal or cashapp or whatever so can someone buy me a game on steam (preferrably guilty gear strive thanks <3)
-
-https://steamcommunity.com/id/swagsuwa/
-
 
 ## TODOS
 - update todo in readme
